@@ -24,17 +24,30 @@ document.addEventListener('DOMContentLoaded', () => {
   const colorBoxes = document.querySelectorAll('.color-changer div');
   const fortunesDiv = document.querySelector('.fortunes');
 
+  function getRandomColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+  }
+
+  function getRandomFontFamily() {
+    const fontFamilyOptions = [
+      "Arial", "Verdana", "Georgia", "Times New Roman", "Courier New", 
+      "Comic Sans MS", "Tahoma", "Trebuchet MS", "Impact", "Lucida Console"
+    ];
+    return fontFamilyOptions[Math.floor(Math.random() * fontFamilyOptions.length)];
+  }
+
   function setStyles(color) {
     fortunesDiv.style.backgroundColor = color;
-    const borderColor = shadeColor(color, -20);
+    const borderColor = getRandomColor();
     fortunesDiv.style.border = `5px solid ${borderColor}`;
-    
-
-    const fontFamilyOptions = ["Arial", "Verdana", "Georgia", "Times New Roman"];
-    const randomFont = fontFamilyOptions[Math.floor(Math.random() * fontFamilyOptions.length)];
-    fortunesDiv.style.fontFamily = randomFont;
+    const fontColor = getRandomColor();
+    fortunesDiv.style.color = fontColor;
+    fortunesDiv.style.fontFamily = getRandomFontFamily();
+    fortunesDiv.style.fontSize = `${Math.floor(Math.random() * 2) + 1.5}em`;
     fortunesDiv.style.fontWeight = Math.random() > 0.5 ? 'bold' : 'normal';
-    fortunesDiv.style.fontSize = `${Math.floor(Math.random() * 2) + 1.2}em`;
   }
 
   function setRandomBackgroundColor() {
@@ -53,20 +66,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setRandomBackgroundColor();
 });
-
-function shadeColor(color, percent) {
-  const rgb = color.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
-  let r = parseInt(rgb[1]);
-  let g = parseInt(rgb[2]);
-  let b = parseInt(rgb[3]);
-
-  r = Math.round(r * (100 + percent) / 100);
-  g = Math.round(g * (100 + percent) / 100);
-  b = Math.round(b * (100 + percent) / 100);
-
-  r = Math.min(255, Math.max(0, r));
-  g = Math.min(255, Math.max(0, g));
-  b = Math.min(255, Math.max(0, b));
-
-  return `rgb(${r}, ${g}, ${b})`;
-}
